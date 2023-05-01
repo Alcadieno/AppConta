@@ -1,29 +1,39 @@
-public class AppConta extends Conta{
-    public AppConta(String nomeClient, int idConta, double saldo) {
-        super(nomeClient,idConta,saldo);
+public class AppConta extends Conta {
 
-    } //Chamando o construtor da Classe conta para a clase ApConta
-
-    public void getinfo (AppConta Conta){
-        System.out.println("--------");
-        System.out.println("Nome do Cliente :"+ NomeClient );
-        System.out.printf("O Seu saldo eh:" + saldo );
-        System.out.println("");
-        System.out.println("--------");
-
-    } //Metodo Getinfo retorna as informações do cliente utilizando uma instancia da Classe como parametro
-
-    @Override
-    public void depositar(double ValorDepositado) {
-        super.depositar(ValorDepositado);
+    public AppConta(String nomeCliente, int idConta, double saldo) {
+        super(nomeCliente, idConta, saldo);
     }
-    //Sobrescreve o metodo
-    @Override
-    public void sacar(double valorSacado) {
 
-        super.sacar(valorSacado);
-        System.out.print("Seu saldo eh:" + saldo);
-        System.out.println("");
+    public void printInfo() {
         System.out.println("--------");
-    } // Metodo retorna  o valor apos a operação de saque
+        System.out.println("Nome do Cliente: " + getNomeCliente());
+        System.out.printf("O seu saldo é: %.2f\n", getSaldo());
+        System.out.println("--------");
+    }
+
+    @Override
+    public void depositar(double valorDepositado) {
+        super.depositar(valorDepositado);
+    }
+
+    @Override
+    public void sacar(double valorSacado) throws ExcecaoSaldo {
+        super.sacar(valorSacado);
+        System.out.println("--------");
+    }
+
+    public void transferenciaPix(AppConta conta, double valorTransferido) throws ExcecaoSaldo {
+        if (this.getIdConta() == conta.getIdConta()) {
+            throw new IllegalArgumentException("ERRO NA TRANSFERENCIA!!! CONTAS IDENTICAS!!");
+        }
+        if (valorTransferido > getSaldo()) {
+            throw new ExcecaoSaldo("SALDO INSUFICIENTE !!");
+        } else if (valorTransferido <= getSaldo()) {
+            this.sacar(valorTransferido);
+            conta.depositar(valorTransferido);
+            System.out.printf("Você recebeu um PIX no Valor de: %.2f\n ",valorTransferido);
+            System.out.println("De " + getNomeCliente()+"!!!");
+
+        }
+    }
 }
