@@ -15,6 +15,7 @@ public class AppConta extends Conta {
     @Override
     public void depositar(double valorDepositado) {
         super.depositar(valorDepositado);
+        registrarHistorico("Deposito");
 
 
     }
@@ -23,7 +24,7 @@ public class AppConta extends Conta {
     public void sacar(double valorSacado) throws ExcecaoSaldo {
         super.sacar(valorSacado);
         System.out.println("--------");
-
+        registrarHistorico("Saque");
     }
 
     public void transferenciaPix(AppConta conta, double valorTransferido) throws ExcecaoSaldo {
@@ -38,9 +39,16 @@ public class AppConta extends Conta {
             System.out.printf("Você recebeu um PIX no Valor de: %.2f\n ",valorTransferido);
             System.out.println("De " + getNomeCliente()+"!!!");
             numPix++;
+            registrarHistorico("Transferencia");
         }
     }
     public int numerodetrasacoesfeitas(){
         return numDepositos+numSaques+numPix;
+    }
+    int i =0;
+    public void historicodetransacoes(){
+        System.out.println("--------");
+        System.out.println("HISTORICO DE TRANSACOES DE "+getNomeCliente());
+        System.out.println(getHistorico());
     }
 }

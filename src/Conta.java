@@ -1,9 +1,13 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Conta {
     private String nomeCliente;
     private int idConta;
     private double saldo;
     private double limite;
     protected int numDepositos,numSaques,numPix;
+    private List<String>historico = new ArrayList<>();
 
     public Conta(String nomeCliente, int idConta, double saldo) {
         this.nomeCliente = nomeCliente;
@@ -15,10 +19,16 @@ public class Conta {
         numSaques =0;
 
     }
+    public void registrarHistorico(String nomeOperacao){
+        historico.add(nomeOperacao);
+    }
 
     public void depositar(double valorDepositado) {
         saldo += valorDepositado;
         numDepositos++;
+    }
+    public List<String> getHistorico(){
+        return historico;
     }
 
     public void sacar(double valorSacado) throws ExcecaoSaldo {
